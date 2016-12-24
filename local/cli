@@ -1,0 +1,9 @@
+#!/bin/bash
+
+source $HOME/.virtualenvs/oldspeak/bin/activate
+
+OLDSPEAK_HOME="$(cd $(dirname ${BASH_SOURCE[0]:-$0})/.. && pwd)"
+export PYTHONPATH="$PYTHONPATH:$OLDSPEAK_HOME"
+export PATH="$VIRTUAL_ENV/bin:$PATH"
+
+cd $OLDSPEAK_HOME && python -m oldspeak.cli ${*} 2>&1

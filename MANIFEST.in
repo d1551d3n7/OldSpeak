@@ -1,0 +1,6 @@
+include *.rst *.txt LICENSE tox.ini .travis.yml docs/source/Makefile .coveragerc
+recursive-include docs/source *.*
+recursive-include static *.*
+recursive-include static/dist *.*
+prune docs/build
+prune static/node_modules

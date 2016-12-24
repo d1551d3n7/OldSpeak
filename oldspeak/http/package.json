@@ -1,0 +1,16 @@
+{
+  "name": "oldspeak",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "fontawesome": "^4.7.0",
+    "milligram": "^1.2.4"
+  }
+}

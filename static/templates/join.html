@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}0LD5P34K{% endblock %}
+{% block container %}
+
+<div class="jumbotron">
+  <h2>create account</h2>
+  <hr />
+  <p class="lead">paste your gpg public key below:</p>
+  <form action="{{ url_for('root.join_form_gpg')}}" method="post" enctype="multipart/form-data">
+    <label for="pubkey" class="sr-only">Public Key</label>
+    <textarea rows="32" id="pubkey" name="pubkey" class="form-control" placeholder="Begins with '-----BEGIN PGP PUBLIC KEY BLOCK-----'" required autofocus></textarea>
+    <br />
+    <button class="btn btn-lg btn-primary btn-block" type="submit">create account</button>
+  </form>
+</div>
+{% endblock %}

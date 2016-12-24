@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}0LD5P34K{% endblock %}
+{% block container %}
+
+<div class="jumbotron">
+  <p class="lead">Paste the One-Time-Password encrypted to you</p>
+  <hr />
+  <form action="{{ url_for('root.login_form_gpg')}}" method="post" enctype="multipart/form-data">
+    <label for="fingerprint" class="sr-only">Public Key</label>
+    <input type="text"  id="fingerprint" name="fingerprint" class="form-control" placeholder="looks like: 'EDBB6EE2484589A18057B62442803EEF87982571'" required autofocus />
+    <button class="btn btn-lg btn-primary btn-block" type="submit">login</button>
+  </form>
+</div>
+{% endblock %}
