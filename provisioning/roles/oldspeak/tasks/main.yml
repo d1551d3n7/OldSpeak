@@ -1,0 +1,28 @@
+- include: base.yml tags=web,deps
+- include: nginx.yml tags=web,nginx
+- include: wsgi.yml tags=web,wsgi
+# - include: mysql.yml tags=web,mysql
+
+- name: "ensure main permissions"
+  shell: chown -R oldspeak:oldspeak-services "{{ item }}"
+  with_items:
+    - /srv
+    - /srv/src
+    - /srv/mail
+    - /srv/uploads
+    - /srv/.data
+    - /srv/open-source
+
+- name: "ensure service-wide group permissions"
+  shell: chown -R oldspeak:oldspeak-services "{{ item }}"
+  with_items:
+    - /srv/src/static
+    - /srv/open-source
+    - /srv/log
+    - /srv/src
+
+- name: restart application
+  service: name=python-app state=restarted
+
+- name: restart nginx
+  service: name=nginx state=restarted

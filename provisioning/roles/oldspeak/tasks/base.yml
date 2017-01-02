@@ -1,0 +1,111 @@
+- name: "installing base dependencies"
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - ntp
+    - nginx
+    - upstart
+    - telnet
+    - git
+    - vim
+    - curl
+    - git-svn
+    - ca-certificates
+    - build-essential
+    - python
+    - htop
+    - subversion
+    - wget
+    - pkg-config
+    - redis-server
+    - redis-tools
+    - virtualenvwrapper
+
+- name: "create oldspeak application group"
+  group:
+    name: oldspeak
+    state: present
+
+- name: "create main service group"
+  group:
+    name: oldspeak-services
+    state: present
+
+- name: "creating oldspeak application user"
+  user: >
+    name=oldspeak
+    shell=/usr/sbin/nologin
+    group=oldspeak
+    groups=oldspeak,oldspeak-services
+    home=/srv/run
+
+- name: "add www-data to the services group"
+  user: >
+    name=www-data
+    groups=www-data,oldspeak-services
+    home=/srv/run
+
+- name: "creating folders"
+  file: path={{ item }} state=directory recurse=yes owner=oldspeak group=oldspeak mode=0770
+  with_items:
+    - /srv/log
+    - /srv/log/nginx
+    - /srv/mail
+    - /srv/uploads
+    - /srv/.data
+    - /srv/run
+    - /srv/open-source
+
+- name: "installing python dependencies"
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - python-pip
+    - python-dev
+    - python-virtualenv
+    - libffi-dev
+    - libssl-dev
+    - libgcrypt11-dev
+    - libudev-dev
+    - libev-dev
+    - libnss3
+    - libgpg-error-dev
+    - libgpgme11-dev
+    - libgit2-dev
+
+- name: copy backend app
+  synchronize: src="{{ local_repository_root_path }}" dest="/srv/src" recursive=yes
+  notify: restart python-app
+
+- name: copy docs homepage
+  shell: rsync -putavozl /srv/src/docs/build/ /srv/open-source/oldspeak/
+
+- name: copy git repo
+  shell: rsync -putavozl /srv/src/.git/ /srv/open-source/oldspeak.git/
+
+# Python dependencies
+
+- name: install latest setuptools
+  pip: name=setuptools state=latest
+       virtualenv="{{ venv_path }}"
+
+- name: install latest pip
+  pip: name=pip state=latest
+       virtualenv="{{ venv_path }}"
+
+- name: install gunicorn
+  pip: name=gunicorn state=latest
+       virtualenv="{{ venv_path }}"
+
+- name: install requirements
+  pip: requirements="/srv/src/requirements.txt"
+       virtualenv="{{ venv_path }}"
+
+- name: "!! uninstall oldspeak !!"
+  shell: "/srv/venv/bin/pip uninstall -y oldspeak"
+  ignore_errors: yes
+
+- name: "!! install oldspeak !!"
+  shell: "/srv/venv/bin/python setup.py install"
+  args:
+    chdir: "/srv/src"
+  notify:
+    - restart python-app

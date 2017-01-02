@@ -1,0 +1,24 @@
+---
+- hosts:
+    - oldspeak
+
+  sudo: yes
+  user: root
+  vars:
+    local_repository_root_path: "{{ playbook_dir }}/.."
+
+    system_max_file_descriptors: 32768
+    ulimit_config:
+      - {domain: '*', type: soft, item: nofile, value: 32768}
+      - {domain: '*', type: hard, item: nofile, value: 32768}
+      - {domain: 'root', type: soft, item: nofile, value: 32768}
+      - {domain: 'root', type: hard, item: nofile, value: 32768}
+
+  vars_files:
+    - "oldspeak-vault.yml"
+
+  roles:
+    - ulimit
+    - base
+    - ssl
+    - oldspeak
