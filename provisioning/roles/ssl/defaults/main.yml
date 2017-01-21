@@ -1,3 +1,0 @@
-root_domain_tls_cert_path:  /etc/ssl/certs/r131733.xyz.cert
-root_domain_tls_key_path:  /etc/ssl/certs/r131733.xyz.key
-root_domain_ca_bundle_path:  /etc/ssl/certs/r131733.xyz.ca-bundle.cert

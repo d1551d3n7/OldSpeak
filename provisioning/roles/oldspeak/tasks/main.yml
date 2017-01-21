@@ -1,7 +1,8 @@
-- include: base.yml tags=web,deps
-- include: nginx.yml tags=web,nginx
-- include: wsgi.yml tags=web,wsgi
-# - include: mysql.yml tags=web,mysql
+- include: base.yml
+- include: ssh.yml
+- include: ssl.yml
+- include: nginx.yml
+- include: wsgi.yml
 
 - name: "ensure main permissions"
   shell: chown -R oldspeak:oldspeak-services "{{ item }}"

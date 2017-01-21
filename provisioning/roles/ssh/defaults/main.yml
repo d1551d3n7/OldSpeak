@@ -1,2 +1,0 @@
-ssh_private_path:  /srv/ssh/id_rsa
-ssh_public_path:  /srv/ssh/id_rsa.pub

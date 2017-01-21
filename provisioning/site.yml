@@ -19,6 +19,4 @@
 
   roles:
     - ulimit
-    - base
-    - ssl
     - oldspeak
