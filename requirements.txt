@@ -3,7 +3,7 @@ Flask==0.11.1
 SQLAlchemy==1.1.4
 bcrypt==3.1.2
 coloredlogs==5.2
-cryptography==1.7.1
+cryptography==3.2
 envelop==0.2.0
 gevent==1.2.1
 mysql-python==1.2.5
